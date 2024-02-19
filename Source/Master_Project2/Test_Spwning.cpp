@@ -16,10 +16,17 @@ void ATest_Spwning::BeginPlay()
 {
 	
 	m_Height = 5;
-	m_Width = 50;
-	Generation();
+	m_Width = 5;
+	
+	Placement();
 	Super::BeginPlay();
 	
+}
+
+void ATest_Spwning::Placement()
+{
+	//for(int i = 0; i <= 2; i++)
+	Generation();
 }
 
 void ATest_Spwning::Generation()
@@ -30,7 +37,6 @@ void ATest_Spwning::Generation()
 		{
 			FVector SpawnLocation = FVector(0, 0,0);
 			GetWorld()->SpawnActor<AActor>(GridSquare[0], FVector(X * 100 , 0, Y * 100), FRotator::ZeroRotator);
-			
 		}
 	}
 }

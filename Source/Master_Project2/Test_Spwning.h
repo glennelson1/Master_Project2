@@ -25,7 +25,8 @@ protected:
 
 	int m_Width;
 	int m_Height;
-
+	int m_loc;
+	void Placement();
 	void Generation();
 
 public:	
