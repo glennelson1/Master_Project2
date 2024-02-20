@@ -18,7 +18,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	
+	UFUNCTION(BlueprintCallable)
+	void Spawn(TSubclassOf<AActor> Element);
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

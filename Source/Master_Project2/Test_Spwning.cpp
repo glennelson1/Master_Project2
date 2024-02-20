@@ -46,6 +46,13 @@ void ATest_Spwning::DeleteGrid()
 	Cellref.Empty();
 }
 
+void ATest_Spwning::SpawnElement()
+{
+	int32 RandomInt= FMath::RandRange(0, 100);
+	if(RandomInt <= 10)
+		GetWorld()->SpawnActor<AActor>(GridSquare[1], FVector(0, 0, 0), FRotator::ZeroRotator);
+}
+
 // Called every frame
 void ATest_Spwning::Tick(float DeltaTime)
 {

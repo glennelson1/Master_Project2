@@ -33,7 +33,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void DeleteGrid();
 
-	
+	UFUNCTION(BlueprintCallable)
+	void SpawnElement();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

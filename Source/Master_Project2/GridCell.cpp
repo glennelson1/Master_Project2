@@ -18,6 +18,13 @@ void AGridCell::BeginPlay()
 	
 }
 
+void AGridCell::Spawn(TSubclassOf<AActor> Element)
+{
+	int32 RandomInt= FMath::RandRange(0, 100);
+	if(RandomInt <= 10)
+	GetWorld()->SpawnActor<AActor>(Element, FVector(0, 0, 0), FRotator::ZeroRotator);
+}
+
 // Called every frame
 void AGridCell::Tick(float DeltaTime)
 {
