@@ -15,8 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ATest_Spwning();
 
-	UPROPERTY(EditAnywhere, Category = "Test")
-	TArray<AActor*> Block;
+	
 	UPROPERTY(EditAnywhere, Category = "Grid")
 	TArray<TSubclassOf<AActor>> GridSquare;
 protected:
@@ -26,9 +25,15 @@ protected:
 	int m_Width;
 	int m_Height;
 	int m_loc;
-	void Placement();
-	void Generation();
 
+	TArray<AActor*> Cellref;
+	
+	UFUNCTION(BlueprintCallable)
+	void SpawnGrid();
+	UFUNCTION(BlueprintCallable)
+	void DeleteGrid();
+
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

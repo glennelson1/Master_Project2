@@ -14,31 +14,36 @@ ATest_Spwning::ATest_Spwning()
 // Called when the game starts or when spawned
 void ATest_Spwning::BeginPlay()
 {
-	
-	m_Height = 5;
-	m_Width = 5;
-	
-	Placement();
 	Super::BeginPlay();
-	
 }
 
-void ATest_Spwning::Placement()
-{
-	//for(int i = 0; i <= 2; i++)
-	Generation();
-}
 
-void ATest_Spwning::Generation()
+
+
+void ATest_Spwning::SpawnGrid()
 {
+	m_Height = 5;
+	m_Width = 10;
+	DeleteGrid();
 	for(int Y = 0; Y <= m_Height; Y++)
 	{
 		for(int X = 0; X <= m_Width; X++)
 		{
-			FVector SpawnLocation = FVector(0, 0,0);
-			GetWorld()->SpawnActor<AActor>(GridSquare[0], FVector(X * 100 , 0, Y * 100), FRotator::ZeroRotator);
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], FVector(X * 100 , 0, Y * 100), FRotator::ZeroRotator);
+			Cellref.Add(NewCell);
 		}
 	}
+}
+
+void ATest_Spwning::DeleteGrid()
+{
+	for (AActor* actor : Cellref)
+	{
+		actor->Destroy();
+		
+	}
+	Cellref.Empty();
 }
 
 // Called every frame
