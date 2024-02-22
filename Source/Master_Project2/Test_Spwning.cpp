@@ -24,8 +24,8 @@ void ATest_Spwning::BeginPlay()
 
 void ATest_Spwning::SpawnGrid()
 {
-	m_Height = 5;
-	m_Width = 10;
+	m_Height = 12;
+	m_Width = 12;
 	FHitResult HitResultDown, HitResultRight;
 	FCollisionQueryParams CollisionParams;
 	
@@ -40,24 +40,38 @@ void ATest_Spwning::SpawnGrid()
 			bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
 			
 			NeighbourDown = HitResultDown.GetActor();
-		
-			if(bHitRight)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("HIT"));
-			}
+
+			
 			if(bHitDown)
 			{
 				if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
 				{
-					AActor* NewCell;
-					NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
-					Cellref.Add(NewCell);
+					if(bHitRight)
+					{
+						if(!HitResultRight.GetActor()->IsA(BlockType[0]))
+						{
+							AActor* NewCell;
+							NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
+							Cellref.Add(NewCell);
+							SpawnElement(CellLocation);
+						}
+					}
+					else
+					{
+						AActor* NewCell;
+						NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
+						Cellref.Add(NewCell);
+						SpawnElement(CellLocation);
+					}
+
+					
 				}
 				
 			}
 			
 		}
 	}
+	
 }
 
 void ATest_Spwning::DeleteGrid()
@@ -70,11 +84,16 @@ void ATest_Spwning::DeleteGrid()
 	Cellref.Empty();
 }
 
-void ATest_Spwning::SpawnElement()
+void ATest_Spwning::SpawnElement(FVector CellLocation)
 {
 	int32 RandomInt= FMath::RandRange(0, 100);
-	if(RandomInt <= 10)
-		GetWorld()->SpawnActor<AActor>(GridSquare[1], FVector(0, 0, 0), FRotator::ZeroRotator);
+	
+	//for (int i = 0; i < Cellref.Num(); i++)
+	
+		GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+	
+		//Delete enemies
+	
 }
 
 // Called every frame

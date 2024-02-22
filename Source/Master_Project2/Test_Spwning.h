@@ -41,8 +41,9 @@ protected:
 	
 	AActor* NeighbourDown = nullptr;
 	AActor* NeighbourRight = nullptr;
+	
 	UFUNCTION(BlueprintCallable)
-	void SpawnElement();
+	void SpawnElement(FVector CellLocation);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
