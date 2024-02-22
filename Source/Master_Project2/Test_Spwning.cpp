@@ -3,6 +3,8 @@
 
 #include "Test_Spwning.h"
 
+#include "GenericPlatform/GenericPlatformCrashContext.h"
+
 // Sets default values
 ATest_Spwning::ATest_Spwning()
 {
@@ -24,14 +26,36 @@ void ATest_Spwning::SpawnGrid()
 {
 	m_Height = 5;
 	m_Width = 10;
+	FHitResult HitResultDown, HitResultRight;
+	FCollisionQueryParams CollisionParams;
+	
 	DeleteGrid();
 	for(int Y = 0; Y <= m_Height; Y++)
 	{
 		for(int X = 0; X <= m_Width; X++)
 		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], FVector(X * 100 , 0, Y * 100), FRotator::ZeroRotator);
-			Cellref.Add(NewCell);
+			FVector CellLocation = FVector(X * 100 , 0, Y * 100);
+			//DrawDebugLine(GetWorld(),CellLocation,CellLocation + FVector(100, 0, 0), FColor::Orange, false, 10.0f );
+			bool bHitDown = GetWorld()->LineTraceSingleByChannel(HitResultDown, CellLocation, CellLocation + FVector(0, 0, -100), ECC_Visibility, CollisionParams);
+			bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
+			
+			NeighbourDown = HitResultDown.GetActor();
+		
+			if(bHitRight)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("HIT"));
+			}
+			if(bHitDown)
+			{
+				if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
+				{
+					AActor* NewCell;
+					NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
+					Cellref.Add(NewCell);
+				}
+				
+			}
+			
 		}
 	}
 }

@@ -18,6 +18,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Grid")
 	TArray<TSubclassOf<AActor>> GridSquare;
+
+	UPROPERTY(EditAnywhere, Category = "Blocks")
+	TArray<TSubclassOf<AActor>> BlockType;
+
+	UPROPERTY(EditAnywhere, Category = "Enemies")
+	TArray<TSubclassOf<AActor>> Enemies;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,7 +38,9 @@ protected:
 	void SpawnGrid();
 	UFUNCTION(BlueprintCallable)
 	void DeleteGrid();
-
+	
+	AActor* NeighbourDown = nullptr;
+	AActor* NeighbourRight = nullptr;
 	UFUNCTION(BlueprintCallable)
 	void SpawnElement();
 public:	
