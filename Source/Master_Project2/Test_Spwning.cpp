@@ -25,51 +25,62 @@ void ATest_Spwning::BeginPlay()
 void ATest_Spwning::SpawnGrid()
 {
 	m_Height = 12;
-	m_Width = 12;
+	m_Width = 10;
+	m_EnityLastSection = 0;
 	FHitResult HitResultDown, HitResultRight;
 	FCollisionQueryParams CollisionParams;
-	
+	m_GridStart = 0;
 	DeleteGrid();
-	for(int Y = 0; Y <= m_Height; Y++)
+	for(int i = 0; i <= 5; i++)
 	{
-		for(int X = 0; X <= m_Width; X++)
+		for(X = 0; X <= m_Width; X++)
 		{
-			FVector CellLocation = FVector(X * 100 , 0, Y * 100);
-			//DrawDebugLine(GetWorld(),CellLocation,CellLocation + FVector(100, 0, 0), FColor::Orange, false, 10.0f );
-			bool bHitDown = GetWorld()->LineTraceSingleByChannel(HitResultDown, CellLocation, CellLocation + FVector(0, 0, -100), ECC_Visibility, CollisionParams);
-			bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
+			UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_GridStart );
+			for(Y = 0; Y <= m_Height; Y++)
+			{
+				FVector CellLocation = FVector(X * 100 , 0, Y * 100);
+				//DrawDebugLine(GetWorld(),CellLocation,CellLocation + FVector(100, 0, 0), FColor::Orange, false, 10.0f );
+				bool bHitDown = GetWorld()->LineTraceSingleByChannel(HitResultDown, CellLocation, CellLocation + FVector(0, 0, -100), ECC_Visibility, CollisionParams);
+				bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
 			
-			NeighbourDown = HitResultDown.GetActor();
+				NeighbourDown = HitResultDown.GetActor();
 
 			
-			if(bHitDown)
-			{
-				if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
+				if(bHitDown)
 				{
-					if(bHitRight)
+					if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
 					{
-						if(!HitResultRight.GetActor()->IsA(BlockType[0]))
+						if(bHitRight)
+						{
+							if(!HitResultRight.GetActor()->IsA(BlockType[0]) &&!HitResultRight.GetActor()->IsA(BlockType[1]))
+							{
+								AActor* NewCell;
+								NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
+								Cellref.Add(NewCell);
+								SpawnElement(CellLocation);
+							}
+						}
+						else
 						{
 							AActor* NewCell;
 							NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
 							Cellref.Add(NewCell);
 							SpawnElement(CellLocation);
 						}
-					}
-					else
-					{
-						AActor* NewCell;
-						NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
-						Cellref.Add(NewCell);
-						SpawnElement(CellLocation);
-					}
 
 					
-				}
+					}
 				
-			}
+				}
 			
+			}
 		}
+		m_EnityLastSection = 0;
+		m_EnityLastSection = EnemyInSection.Num();
+		EnemyInSection.Empty();
+		X = 0;
+		Y = 0;
+		
 	}
 	
 }
@@ -81,6 +92,11 @@ void ATest_Spwning::DeleteGrid()
 		actor->Destroy();
 		
 	}
+	for (AActor* actor : EnemyArray)
+	{
+		actor->Destroy();
+		
+	}
 	Cellref.Empty();
 }
 
@@ -88,11 +104,40 @@ void ATest_Spwning::SpawnElement(FVector CellLocation)
 {
 	int32 RandomInt= FMath::RandRange(0, 100);
 	
-	//for (int i = 0; i < Cellref.Num(); i++)
+	switch (m_Difficulty)
+	{
+	case 0:
+		if(RandomInt <= 10)
+		{
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+			EnemyArray.Add(NewCell);
+			EnemyInSection.Add(NewCell);
+		}	
+		break;
+	case 1:
+		if(RandomInt <= 15)
+		{
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+			EnemyArray.Add(NewCell);
+			EnemyInSection.Add(NewCell);
+		}	
+		break;
+	case 2:
+		if(RandomInt <= 25)
+		{
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+			EnemyArray.Add(NewCell);
+			EnemyInSection.Add(NewCell);
+		}	
+		break;
+		default: break;
+	}
+
 	
-		GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
 	
-		//Delete enemies
 	
 }
 

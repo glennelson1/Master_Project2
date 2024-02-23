@@ -31,8 +31,15 @@ protected:
 	int m_Width;
 	int m_Height;
 	int m_loc;
+	int m_GridStart;
+	int Y;
+	int X;
 
+	int m_EnityLastSection;
+	
 	TArray<AActor*> Cellref;
+	TArray<AActor*> EnemyArray;
+	TArray<AActor*> EnemyInSection;
 	
 	UFUNCTION(BlueprintCallable)
 	void SpawnGrid();
@@ -44,6 +51,10 @@ protected:
 	
 	UFUNCTION(BlueprintCallable)
 	void SpawnElement(FVector CellLocation);
+
+	
+	UPROPERTY(EditAnywhere, Category = "Difficulty")
+	int m_Difficulty;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
