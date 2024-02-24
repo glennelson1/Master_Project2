@@ -42,7 +42,9 @@ protected:
 	TArray<AActor*> EnemyInSection;
 	
 	UFUNCTION(BlueprintCallable)
-	void SpawnGrid();
+	void Start();
+	
+	void SpawnGrid(int num);
 	UFUNCTION(BlueprintCallable)
 	void DeleteGrid();
 	

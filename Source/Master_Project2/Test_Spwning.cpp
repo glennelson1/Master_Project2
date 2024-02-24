@@ -20,39 +20,46 @@ void ATest_Spwning::BeginPlay()
 }
 
 
-
-
-void ATest_Spwning::SpawnGrid()
+void ATest_Spwning::Start()
 {
+	DeleteGrid();
+	for(int i = 0; i <= 30; i += 10)
+	{
+		SpawnGrid(i);
+	}
+}
+
+void ATest_Spwning::SpawnGrid(int num)
+{
+	
 	m_Height = 12;
 	m_Width = 10;
 	m_EnityLastSection = 0;
 	FHitResult HitResultDown, HitResultRight;
 	FCollisionQueryParams CollisionParams;
 	m_GridStart = 0;
-	DeleteGrid();
-	for(int i = 0; i <= 5; i++)
+	for(X = 1; X <= m_Width; X++)
 	{
-		for(X = 0; X <= m_Width; X++)
+		m_GridStart = (X + num) * 100;
+		//UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_GridStart);
+		for(Y = 0; Y <= m_Height; Y++)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_GridStart );
-			for(Y = 0; Y <= m_Height; Y++)
-			{
-				FVector CellLocation = FVector(X * 100 , 0, Y * 100);
-				//DrawDebugLine(GetWorld(),CellLocation,CellLocation + FVector(100, 0, 0), FColor::Orange, false, 10.0f );
-				bool bHitDown = GetWorld()->LineTraceSingleByChannel(HitResultDown, CellLocation, CellLocation + FVector(0, 0, -100), ECC_Visibility, CollisionParams);
-				bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
+			FVector CellLocation = FVector(m_GridStart, 0, Y * 100);
 			
-				NeighbourDown = HitResultDown.GetActor();
+			//DrawDebugLine(GetWorld(),CellLocation,CellLocation + FVector(100, 0, 0), FColor::Orange, false, 10.0f );
+			bool bHitDown = GetWorld()->LineTraceSingleByChannel(HitResultDown, CellLocation, CellLocation + FVector(0, 0, -100), ECC_Visibility, CollisionParams);
+			bool bHitRight = GetWorld()->LineTraceSingleByChannel(HitResultRight, CellLocation, CellLocation + FVector(100, 0, 0), ECC_Visibility, CollisionParams);
+			//UE_LOG(LogTemp, Warning, TEXT("The vector value is: %s"), *CellLocation.ToString());
+			NeighbourDown = HitResultDown.GetActor();
 
 			
-				if(bHitDown)
+			if(bHitDown)
 				{
 					if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
 					{
 						if(bHitRight)
 						{
-							if(!HitResultRight.GetActor()->IsA(BlockType[0]) &&!HitResultRight.GetActor()->IsA(BlockType[1]))
+							if(!HitResultRight.GetActor()->IsA(BlockType[0]) &&!HitResultRight.GetActor()->IsA(BlockType[1]) && !HitResultRight.GetActor()->IsA(BlockType[2]) && !HitResultRight.GetActor()->IsA(BlockType[4]))
 							{
 								AActor* NewCell;
 								NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
@@ -74,15 +81,13 @@ void ATest_Spwning::SpawnGrid()
 				}
 			
 			}
-		}
-		m_EnityLastSection = 0;
-		m_EnityLastSection = EnemyInSection.Num();
-		EnemyInSection.Empty();
-		X = 0;
-		Y = 0;
+		
 		
 	}
-	
+	m_EnityLastSection = 0;
+	m_EnityLastSection = EnemyInSection.Num();
+	UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_EnityLastSection);
+	EnemyInSection.Empty();
 }
 
 void ATest_Spwning::DeleteGrid()
