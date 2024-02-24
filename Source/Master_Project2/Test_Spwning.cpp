@@ -28,7 +28,7 @@ void ATest_Spwning::Start()
 		SpawnGrid(i);
 	}
 }
-
+//Checks for areas that an enity can be spawned on
 void ATest_Spwning::SpawnGrid(int num)
 {
 	
@@ -52,7 +52,7 @@ void ATest_Spwning::SpawnGrid(int num)
 			//UE_LOG(LogTemp, Warning, TEXT("The vector value is: %s"), *CellLocation.ToString());
 			NeighbourDown = HitResultDown.GetActor();
 
-			
+			// stops enities being spawned in the floor or in objects
 			if(bHitDown)
 				{
 					if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
@@ -105,11 +105,13 @@ void ATest_Spwning::DeleteGrid()
 	Cellref.Empty();
 }
 
+
+// TODO - ADD Check for enemies in section and previous seaction - (Will ethier increase or decrease chance of enemies)
 void ATest_Spwning::SpawnElement(FVector CellLocation)
 {
 	int32 RandomInt= FMath::RandRange(0, 100);
 	
-	switch (m_Difficulty)
+	switch (m_Difficulty) 
 	{
 	case 0:
 		if(RandomInt <= 10)
