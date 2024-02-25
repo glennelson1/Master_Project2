@@ -22,11 +22,17 @@ void ATest_Spwning::BeginPlay()
 
 void ATest_Spwning::Start()
 {
+	m_Start = true;
+	
 	DeleteGrid();
-	for(int i = 0; i <= 30; i += 10)
+	
+	
+	for(int i = 0; i <= 140; i += 10)
 	{
 		SpawnGrid(i);
+		
 	}
+	//EnemyInSection.Empty();
 }
 //Checks for areas that an enity can be spawned on
 void ATest_Spwning::SpawnGrid(int num)
@@ -34,10 +40,15 @@ void ATest_Spwning::SpawnGrid(int num)
 	
 	m_Height = 12;
 	m_Width = 10;
-	m_EnityLastSection = 0;
 	FHitResult HitResultDown, HitResultRight;
 	FCollisionQueryParams CollisionParams;
 	m_GridStart = 0;
+	
+	m_EnityLastSection = EnemyInSection.Num();
+	EnemyInSection.Empty();
+
+	
+	//UE_LOG(LogTemp, Warning, TEXT("Ememies in seactyion: %d"), m_EnityLastSection);
 	for(X = 1; X <= m_Width; X++)
 	{
 		m_GridStart = (X + num) * 100;
@@ -84,10 +95,7 @@ void ATest_Spwning::SpawnGrid(int num)
 		
 		
 	}
-	m_EnityLastSection = 0;
-	m_EnityLastSection = EnemyInSection.Num();
-	UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_EnityLastSection);
-	EnemyInSection.Empty();
+	m_Start = false;
 }
 
 void ATest_Spwning::DeleteGrid()
@@ -103,50 +111,109 @@ void ATest_Spwning::DeleteGrid()
 		
 	}
 	Cellref.Empty();
+	EnemyArray.Empty();
 }
 
 
-// TODO - ADD Check for enemies in section and previous seaction - (Will ethier increase or decrease chance of enemies)
 void ATest_Spwning::SpawnElement(FVector CellLocation)
 {
 	int32 RandomInt= FMath::RandRange(0, 100);
-	
+	m_Difficulty = CheckSeaction();
+	//UE_LOG(LogTemp, Warning, TEXT(" int: %d"), RandomInt);
 	switch (m_Difficulty) 
 	{
 	case 0:
+		if(RandomInt <= 5)
+		{
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+			EnemyArray.Add(NewCell);
+			EnemyInSection.Add(NewCell);
+			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 0"));
+		}	
+		break;
+	case 1:
 		if(RandomInt <= 10)
 		{
 			AActor* NewCell;
 			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
 			EnemyArray.Add(NewCell);
 			EnemyInSection.Add(NewCell);
+			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 1"));
 		}	
 		break;
-	case 1:
+	case 2:
 		if(RandomInt <= 15)
 		{
 			AActor* NewCell;
 			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
 			EnemyArray.Add(NewCell);
 			EnemyInSection.Add(NewCell);
+			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 2"));
 		}	
 		break;
-	case 2:
+	case 3:
 		if(RandomInt <= 25)
 		{
 			AActor* NewCell;
 			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
 			EnemyArray.Add(NewCell);
 			EnemyInSection.Add(NewCell);
+			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 3"));
 		}	
 		break;
-		default: break;
+	case 4:
+		if(RandomInt <= 30)
+		{
+			AActor* NewCell;
+			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+			EnemyArray.Add(NewCell);
+			EnemyInSection.Add(NewCell);
+			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 4"));
+		}	
+		break;
+		default: UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = null"));break;
 	}
-
-	
-	
-	
 }
+
+int ATest_Spwning::CheckSeaction()
+{
+	if (m_Start)
+	{
+		return 0;
+	}
+	if (m_EnityLastSection == 0)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("0"));
+		return 4;
+	}
+	if (m_EnityLastSection == 1)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("1"));
+		return 3;
+	}
+	if (	m_EnityLastSection == 2)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("2"));
+		return 2;
+	}
+	if (m_EnityLastSection == 3)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("3"));
+		return 1;
+	}
+	if (m_EnityLastSection == 4)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("4"));
+		return 0;
+	}
+	else
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("default"));
+		return 0;
+	}
+}
+
 
 // Called every frame
 void ATest_Spwning::Tick(float DeltaTime)

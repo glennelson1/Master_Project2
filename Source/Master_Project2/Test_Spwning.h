@@ -54,9 +54,12 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void SpawnElement(FVector CellLocation);
 
+	int CheckSeaction();
 	
-	UPROPERTY(EditAnywhere, Category = "Difficulty")
+	//UPROPERTY(EditAnywhere, Category = "Difficulty")
 	int m_Difficulty;
+
+	bool m_Start;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
