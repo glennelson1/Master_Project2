@@ -65,35 +65,28 @@ void ATest_Spwning::SpawnGrid(int num)
 
 			// stops enities being spawned in the floor or in objects
 			if(bHitDown)
+			{
+				if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
 				{
-					if(HitResultDown.GetActor()->IsA(BlockType[0]) || HitResultDown.GetActor()->IsA(BlockType[1]) ||HitResultDown.GetActor()->IsA(BlockType[2]) ||HitResultDown.GetActor()->IsA(BlockType[3])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[4])||HitResultDown.GetActor()->IsA(BlockType[5]))
+					if(bHitRight)
 					{
-						if(bHitRight)
-						{
-							if(!HitResultRight.GetActor()->IsA(BlockType[0]) &&!HitResultRight.GetActor()->IsA(BlockType[1]) && !HitResultRight.GetActor()->IsA(BlockType[2]) && !HitResultRight.GetActor()->IsA(BlockType[4]))
-							{
-								AActor* NewCell;
-								NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
-								Cellref.Add(NewCell);
-								SpawnElement(CellLocation);
-							}
-						}
-						else
-						{
-							AActor* NewCell;
+						if(!HitResultRight.GetActor()->IsA(BlockType[0]) &&!HitResultRight.GetActor()->IsA(BlockType[1]) && !HitResultRight.GetActor()->IsA(BlockType[2]) && !HitResultRight.GetActor()->IsA(BlockType[4]))
+						{AActor* NewCell;
 							NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
 							Cellref.Add(NewCell);
 							SpawnElement(CellLocation);
 						}
-
-					
 					}
-				
+					else
+					{
+						AActor* NewCell;
+						NewCell = GetWorld()->SpawnActor<AActor>(GridSquare[0], CellLocation, FRotator::ZeroRotator);
+						Cellref.Add(NewCell);
+						SpawnElement(CellLocation);
+					}
 				}
-			
 			}
-		
-		
+		}
 	}
 	m_Start = false;
 }
@@ -103,12 +96,10 @@ void ATest_Spwning::DeleteGrid()
 	for (AActor* actor : Cellref)
 	{
 		actor->Destroy();
-		
 	}
 	for (AActor* actor : EnemyArray)
 	{
 		actor->Destroy();
-		
 	}
 	Cellref.Empty();
 	EnemyArray.Empty();
