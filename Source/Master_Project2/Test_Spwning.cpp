@@ -23,7 +23,7 @@ void ATest_Spwning::BeginPlay()
 void ATest_Spwning::Start()
 {
 	m_Start = true;
-	
+	m_LastWasEnemy = false;
 	DeleteGrid();
 	
 	
@@ -49,11 +49,11 @@ void ATest_Spwning::SpawnGrid(int num)
 
 	
 	//UE_LOG(LogTemp, Warning, TEXT("Ememies in seactyion: %d"), m_EnityLastSection);
-	for(X = 1; X <= m_Width; X++)
+	for(int X = 1; X <= m_Width; X++)
 	{
 		m_GridStart = (X + num) * 100;
 		//UE_LOG(LogTemp, Warning, TEXT("The integer value is: %d"), m_GridStart);
-		for(Y = 0; Y <= m_Height; Y++)
+		for(int Y = 0; Y <= m_Height; Y++)
 		{
 			FVector CellLocation = FVector(m_GridStart, 0, Y * 100);
 			
@@ -108,63 +108,108 @@ void ATest_Spwning::DeleteGrid()
 
 void ATest_Spwning::SpawnElement(FVector CellLocation)
 {
-	int32 RandomInt= FMath::RandRange(0, 100);
-	m_Difficulty = CheckSeaction();
-	//UE_LOG(LogTemp, Warning, TEXT(" int: %d"), RandomInt);
-	switch (m_Difficulty) 
+	
+	int32 Randomint= FMath::RandRange(0, 100);
+
+	if(Randomint <= 70)
 	{
-	case 0:
-		if(RandomInt <= 5)
-		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
-			EnemyArray.Add(NewCell);
-			EnemyInSection.Add(NewCell);
-			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 0"));
-		}	
-		break;
-	case 1:
-		if(RandomInt <= 10)
-		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
-			EnemyArray.Add(NewCell);
-			EnemyInSection.Add(NewCell);
-			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 1"));
-		}	
-		break;
-	case 2:
-		if(RandomInt <= 15)
-		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
-			EnemyArray.Add(NewCell);
-			EnemyInSection.Add(NewCell);
-			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 2"));
-		}	
-		break;
-	case 3:
-		if(RandomInt <= 25)
-		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
-			EnemyArray.Add(NewCell);
-			EnemyInSection.Add(NewCell);
-			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 3"));
-		}	
-		break;
-	case 4:
-		if(RandomInt <= 30)
-		{
-			AActor* NewCell;
-			NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
-			EnemyArray.Add(NewCell);
-			EnemyInSection.Add(NewCell);
-			//UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = 4"));
-		}	
-		break;
-		default: UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = null"));break;
+		SpawnEnemey(CellLocation);
 	}
+	else
+	{
+		SpawnCollectable(CellLocation);
+	}
+	
+	
+	//UE_LOG(LogTemp, Warning, TEXT(" int: %d"), RandomInt);
+	
+}
+
+void ATest_Spwning::SpawnEnemey(FVector CellLocation)
+{
+	int32 RandomInt = FMath::RandRange(0, 100);
+	m_Difficulty = CheckSeaction();
+	if(!m_LastWasEnemy)
+	{
+		switch (m_Difficulty) 
+		{
+		case 0:
+			if(RandomInt <= 10)
+			{
+				AActor* NewCell;
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				EnemyArray.Add(NewCell);
+				EnemyInSection.Add(NewCell);
+				m_LastWasEnemy = true;
+			}
+			
+			break;
+		case 1:
+			if(RandomInt <= 15)
+			{
+				AActor* NewCell;
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				EnemyArray.Add(NewCell);
+				EnemyInSection.Add(NewCell);
+				m_LastWasEnemy = true;
+			}
+			
+			break;
+		case 2:
+			if(RandomInt <= 20)
+			{
+				AActor* NewCell;
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				EnemyArray.Add(NewCell);
+				EnemyInSection.Add(NewCell);
+				m_LastWasEnemy = true;
+			}
+			
+			break;
+		case 3:
+			if(RandomInt <= 25)
+			{
+				AActor* NewCell;
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				EnemyArray.Add(NewCell);
+				EnemyInSection.Add(NewCell);
+				m_LastWasEnemy = true;
+			}
+			
+			break;
+		case 4:
+			if(RandomInt <= 30)
+			{
+				AActor* NewCell;
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				EnemyArray.Add(NewCell);
+				EnemyInSection.Add(NewCell);
+				m_LastWasEnemy = true;
+			}
+			
+			break;
+		default: UE_LOG(LogTemp, Warning, TEXT("m_Difficulty = null")); m_LastWasEnemy = false;break;
+		}
+	}
+	else if (m_LastWasEnemy)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("1"));
+		m_LastWasEnemy = false;
+	}
+	//UE_LOG(LogTemp, Warning, TEXT("Ememies in seactyion: %d"), m_Difficulty);
+}
+
+void ATest_Spwning::SpawnCollectable(FVector CellLocation)
+{
+	int32 RandomInt= FMath::RandRange(0, 100);
+	if(RandomInt <= 30)
+	{
+		AActor* NewCell;
+		NewCell = GetWorld()->SpawnActor<AActor>(Collectables[0], CellLocation, FRotator::ZeroRotator);
+		EnemyArray.Add(NewCell);
+		EnemyInSection.Add(NewCell);
+			
+	}	
 }
 
 int ATest_Spwning::CheckSeaction()
@@ -175,32 +220,26 @@ int ATest_Spwning::CheckSeaction()
 	}
 	if (m_EnityLastSection == 0)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("0"));
 		return 4;
 	}
 	if (m_EnityLastSection == 1)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("1"));
 		return 3;
 	}
 	if (	m_EnityLastSection == 2)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("2"));
 		return 2;
 	}
 	if (m_EnityLastSection == 3)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("3"));
 		return 1;
 	}
 	if (m_EnityLastSection == 4)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("4"));
 		return 0;
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("default"));
 		return 0;
 	}
 }

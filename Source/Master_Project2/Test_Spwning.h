@@ -22,8 +22,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Blocks")
 	TArray<TSubclassOf<AActor>> BlockType;
 
-	UPROPERTY(EditAnywhere, Category = "Enemies")
+	UPROPERTY(EditAnywhere, Category = "Enities")
 	TArray<TSubclassOf<AActor>> Enemies;
+	UPROPERTY(EditAnywhere, Category = "Enities")
+	TArray<TSubclassOf<AActor>> Collectables;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,8 +34,7 @@ protected:
 	int m_Height;
 	int m_loc;
 	int m_GridStart;
-	int Y;
-	int X;
+
 
 	int m_EnityLastSection;
 	
@@ -54,12 +55,16 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void SpawnElement(FVector CellLocation);
 
+	void SpawnEnemey(FVector CellLocation);
+	void SpawnCollectable(FVector CellLocation);
+
 	int CheckSeaction();
 	
 	//UPROPERTY(EditAnywhere, Category = "Difficulty")
 	int m_Difficulty;
 
 	bool m_Start;
+	bool m_LastWasEnemy;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

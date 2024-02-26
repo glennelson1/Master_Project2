@@ -174,7 +174,7 @@ void APCG_LEVEL_GEN::SaveSeedToFile(const FString& Seed)
 void APCG_LEVEL_GEN::DebugPrintSeed()
 {
 	FString GeneratedSeed = GenerateSeed();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Level Seed: ") + GeneratedSeed);
+	
 }
 
 // Called every frame
