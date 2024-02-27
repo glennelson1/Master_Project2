@@ -128,6 +128,11 @@ void ATest_Spwning::SpawnElement(FVector CellLocation)
 void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 {
 	int32 RandomInt = FMath::RandRange(0, 100);
+	int32 RandEnemyType = FMath::RandRange(0, 10);
+	int enemyType;
+	if(RandEnemyType <= 7) enemyType = 0;
+	else enemyType = 1;
+	
 	m_Difficulty = CheckSeaction();
 	if(!m_LastWasEnemy)
 	{
@@ -137,10 +142,11 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 			if(RandomInt <= 10)
 			{
 				AActor* NewCell;
-				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[enemyType], CellLocation, FRotator::ZeroRotator);
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
+				UE_LOG(LogTemp, Warning, TEXT("0"));
 			}
 			
 			break;
@@ -148,10 +154,11 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 			if(RandomInt <= 15)
 			{
 				AActor* NewCell;
-				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[enemyType], CellLocation, FRotator::ZeroRotator);
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
+				UE_LOG(LogTemp, Warning, TEXT("1"));
 			}
 			
 			break;
@@ -159,32 +166,35 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 			if(RandomInt <= 20)
 			{
 				AActor* NewCell;
-				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[enemyType], CellLocation, FRotator::ZeroRotator);
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
+				UE_LOG(LogTemp, Warning, TEXT("2"));
 			}
 			
 			break;
 		case 3:
-			if(RandomInt <= 25)
+			if(RandomInt <= 30)
 			{
 				AActor* NewCell;
-				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[enemyType], CellLocation, FRotator::ZeroRotator);
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
+				UE_LOG(LogTemp, Warning, TEXT("3"));
 			}
 			
 			break;
 		case 4:
-			if(RandomInt <= 30)
+			if(RandomInt <= 40)
 			{
 				AActor* NewCell;
-				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[0], CellLocation, FRotator::ZeroRotator);
+				NewCell = GetWorld()->SpawnActor<AActor>(Enemies[enemyType], CellLocation, FRotator::ZeroRotator);
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
+				UE_LOG(LogTemp, Warning, TEXT("4"));
 			}
 			
 			break;
