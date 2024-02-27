@@ -146,7 +146,6 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
-				UE_LOG(LogTemp, Warning, TEXT("0"));
 			}
 			
 			break;
@@ -158,7 +157,6 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
-				UE_LOG(LogTemp, Warning, TEXT("1"));
 			}
 			
 			break;
@@ -170,7 +168,6 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
-				UE_LOG(LogTemp, Warning, TEXT("2"));
 			}
 			
 			break;
@@ -182,7 +179,6 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
-				UE_LOG(LogTemp, Warning, TEXT("3"));
 			}
 			
 			break;
@@ -194,7 +190,6 @@ void ATest_Spwning::SpawnEnemey(FVector CellLocation)
 				EnemyArray.Add(NewCell);
 				EnemyInSection.Add(NewCell);
 				m_LastWasEnemy = true;
-				UE_LOG(LogTemp, Warning, TEXT("4"));
 			}
 			
 			break;

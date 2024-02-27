@@ -80,7 +80,6 @@ void APCG_LEVEL_GEN::SpawnBricks(int loc)
 	}
 	else if(RandomInt >= 11 && RandomInt <= 15)//spawns single block
 		{
-		
 		FVector SpawnLocation = FVector((loc + 6) * 100, 0,400); 
 		AActor* NewCell;
 		NewCell = GetWorld()->SpawnActor<AActor>(CellClasses[5], SpawnLocation, FRotator::ZeroRotator);
